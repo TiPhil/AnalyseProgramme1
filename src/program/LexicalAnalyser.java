@@ -7,6 +7,8 @@ import java.io.IOException;
 public class LexicalAnalyser {
 	
 	private FileInputStream fileInput;
+	private Token buffer;
+	private Token temp;
 	
 	public LexicalAnalyser() {
 		try {
@@ -14,28 +16,180 @@ public class LexicalAnalyser {
 		} catch (Exception e) { }
 	}
 	
-	public String getNextToken() {
+	public Token getNextToken() {
 		String word = "";
+		Token token = new Token(TokenType.OTHER, "");	
+		int counter = 0;
 		int r;
+		char ch;
+		
+		if (buffer != null) {
+			temp.setTokenType(buffer.getTokenType());
+			temp.setValue(buffer.getValue());
+			buffer = null;
+			return temp;
+		}
 		
 		try {
 			while ((r = fileInput.read()) != -1) {
-				if (((char) r != ' ') || ((char) r != '\r')) {
+				ch = (char)r;
+				
+				if ((ch != ' ') && (ch != '\r')) {
+					counter++;
+					
+					if(counter == 1) {
+						if(Character.isLetter(ch)) {
+							word += (char) r;
+							token = new Token(TokenType.IDENTIFICATOR, word);
+						}
+						else if(Character.isDigit(ch)) {
+							word += (char) r;
+							token = new Token(TokenType.NUMBER, word);
+						}
+						else if(ch == '+') {
+							word += (char) r;
+							token = new Token(TokenType.ADDITION, word);
+							return token;
+						}
+						else if(ch == '-') {
+							word += (char) r;
+							token = new Token(TokenType.MINUS, word);
+							return token;
+						}
+						else if(ch == '*') {
+							word += (char) r;
+							token = new Token(TokenType.MULTIPLIER, word);
+							return token;
+						}
+						else if(ch == '/') {
+							word += (char) r;
+							token = new Token(TokenType.DIVISION, word);
+							return token;
+						}
+						else if(ch == '(') {
+							word += (char) r;
+							token = new Token(TokenType.PARENTHESE_LEFT, word);
+							return token;
+						}
+						else if(ch == ')') {
+							word += (char) r;
+							token = new Token(TokenType.PARENTHESE_RIGHT, word);
+							return token;
+						}
+						else if(ch == '=') {
+							word += (char) r;
+							token = new Token(TokenType.EQUAL, word);
+							return token;
+						}
+						else if(ch == ':') {
+							word += (char) r;
+							token = new Token(TokenType.COLON, word);
+							return token;
+						}
+						else if(ch == ';') {
+							word += (char) r;
+							token = new Token(TokenType.SEMICOLON, word);
+							return token;
+						}
+					}
+					else {
+						if(Character.isLetter(ch)) {
+							word += (char) r;
+							if(token.getTokenType() == TokenType.IDENTIFICATOR) {
+								if(ReservedKeyWords.getInstance().isReservedKeyWords(word)) {
+									token = new Token(TokenType.RESERVEDKEYWORD, word);
+								}
+								else {
+									token = new Token(TokenType.IDENTIFICATOR, word);
+								}
+							}
+							else {
+								token = new Token(TokenType.OTHER, word);
+							}
+						}
+						else if(Character.isDigit(ch)) {
+							word += (char) r;
+							
+							if(token.getTokenType() == TokenType.IDENTIFICATOR || token.getTokenType() == TokenType.RESERVEDKEYWORD) {
+								token = new Token(TokenType.IDENTIFICATOR, word);
+							}
+							else {
+								token = new Token(TokenType.NUMBER, word);
+							}
+						}
+						
+						// TO CONTINU
+						else if(ch == '+') {
+							buffer = new Token(TokenType.ADDITION, Character.toString(ch));
+							return token;
+						}
+						else if(ch == '-') {
+							buffer = new Token(TokenType.MINUS, Character.toString(ch));
+							return token;
+						}
+						else if(ch == '*') {
+							buffer = new Token(TokenType.MULTIPLIER, Character.toString(ch));
+							return token;
+						}
+						else if(ch == '/') {
+							buffer = new Token(TokenType.DIVISION, Character.toString(ch));
+							return token;
+						}
+						else if(ch == '(') {
+							buffer = new Token(TokenType.PARENTHESE_LEFT, Character.toString(ch));
+							return token;
+						}
+						else if(ch == ')') {
+							buffer = new Token(TokenType.PARENTHESE_RIGHT, Character.toString(ch));
+							return token;
+						}
+						else if(ch == '=') {
+							buffer = new Token(TokenType.EQUAL, Character.toString(ch));
+							return token;
+						}
+						else if(ch == ':') {
+							buffer = new Token(TokenType.COLON, Character.toString(ch));
+							return token;
+						}
+						else if(ch == ';') {
+							buffer = new Token(TokenType.SEMICOLON, Character.toString(ch));
+							return token;
+						}
+					}
+					
+					
+					
+					if(Character.isLetter(ch)) {
+						
+						if() {
+							
+						}
+						
+						// check if mot clé
+						
+						// 
+					}
+					
 					word += (char) r;
+					
 					break;
 				}
 			}
 			
 			while ((r = fileInput.read()) != -1) {
-				if ((char) r != ' ') {
+				if (((char) r != ' ') && ((char) r != '\r')) {
 					word += (char) r;
 				}
 				else {
-					return word;
+					
+					
+					
+					return null; // token
 				}
 			}
 			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 		
 		}
 		

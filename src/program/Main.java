@@ -10,13 +10,10 @@ import java.nio.file.Paths;
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		LexicalAnalyser analyser = new LexicalAnalyser();
-		
-		analyser.readFile("src/program/file.l");
-		
 
+		SyntaxAnalyser syntaxAnalyser = new SyntaxAnalyser();
+		
+		syntaxAnalyser.procedure();
 	}
 
 }

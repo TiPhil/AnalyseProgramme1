@@ -1,1 +1,1 @@
-Procedure toto declare titi : entier ; titi = 1 + 1 Fin_Procedure toto
+Procedure  toto declare tata : entier ; Fin_Procedure toto
