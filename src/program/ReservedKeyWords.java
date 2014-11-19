@@ -14,12 +14,6 @@ public class ReservedKeyWords {
 		keyWordsTable.add("declare");
 		keyWordsTable.add("entier");
 		keyWordsTable.add("reel");
-		keyWordsTable.add("+");
-		keyWordsTable.add("-");
-		keyWordsTable.add(":");
-		keyWordsTable.add(";");
-		keyWordsTable.add("*");
-		keyWordsTable.add("/");
 	}
 	
 	public static ReservedKeyWords getInstance() {
@@ -30,11 +24,10 @@ public class ReservedKeyWords {
 	}
 	
 	// is this used? to delete...
-	public List<String> getKeyWordsTable() {
+	/*public List<String> getKeyWordsTable() {
 		return keyWordsTable;
-	}
+	}*/
 	
-	// is this used? to delete...
 	public boolean isReservedKeyWords(String word) {
 		for (String element : keyWordsTable) {
 			if (element.equals(word))

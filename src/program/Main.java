@@ -13,7 +13,13 @@ public class Main {
 
 		SyntaxAnalyser syntaxAnalyser = new SyntaxAnalyser();
 		
-		syntaxAnalyser.procedure();
+		
+		if (syntaxAnalyser.procedure()) {
+			System.out.println("Aucune erreur dans le programme n'a ete detecte!");
+		}
+		else {
+			System.out.println("Il y a une ou plusieurs erreurs dans le programme!");
+		}
 	}
 
 }
