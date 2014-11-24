@@ -10,10 +10,14 @@ public class SyntaxAnalyser {
 	private List<Variable> variableList = new ArrayList<Variable>();
 	boolean isEntier = false;
 	
+	// Constructeur
 	public SyntaxAnalyser() {
 		lexicalAnalyser = new LexicalAnalyser();
 	}
 	
+	// Fonction principale de l'analyseur syntaxique
+	// Returne vrai si l'analyse c'est effectue avec success
+	// Aussi non, retourne faux
 	public boolean procedure() {
 		Token identificateurProcedure = null;
 		
@@ -54,6 +58,7 @@ public class SyntaxAnalyser {
 		return false;
 	}
 
+	// Verifie le non-terminal "declarations"
 	public boolean declarations() {
 		
 		boolean valid = false;
@@ -79,6 +84,7 @@ public class SyntaxAnalyser {
 		}
 	}
 
+	// Verifie le non-terminal "declaration"
 	public boolean declaration() {
 		String valueTemp;
 		String typeTemp;
@@ -124,10 +130,12 @@ public class SyntaxAnalyser {
 		}
 	}
 
+	// Verifie le non-terminal "variable"
 	public boolean variable() {
 		return identificateur();
 	}
 	
+	// Verifie le terminal "type"
 	public boolean type() {
 		if (token.getValue().equals("reel") || token.getValue().equals("entier")) {
 			getNextToken();
@@ -139,6 +147,7 @@ public class SyntaxAnalyser {
 		}
 	}
 	
+	// Verifie le non-terminal "instructions_affectation"
 	public boolean instructions_affectation() {
 		boolean valid = false;
 		int counter = 0;
@@ -179,6 +188,7 @@ public class SyntaxAnalyser {
 		}
 	}
 	
+	// Verifie le non-terminal "instruction_affectation"
 	public boolean instruction_affectation() {
 		
 		if (isVariable(token.getValue())) {
@@ -212,6 +222,7 @@ public class SyntaxAnalyser {
 		}
 	}
 	
+	// Verifie le non-terminal "expression_arithmetique"
 	public boolean expression_arithmetique() {
 		if (terme()) {
 			while (token.getTokenType() == TokenType.ADDITION || token.getTokenType() == TokenType.MINUS) {
@@ -230,7 +241,8 @@ public class SyntaxAnalyser {
 			return false;
 		}
 	}
-	
+
+	// Verifie le non-terminal "terme"
 	public boolean terme() {
 		if (facteur()) {
 			while (token.getTokenType() == TokenType.MULTIPLIER || token.getTokenType() == TokenType.DIVISION) {
@@ -249,7 +261,8 @@ public class SyntaxAnalyser {
 			return false;
 		}
 	}
-	
+
+	// Verifie le non-terminal "facteur"
 	public boolean facteur() {
 		if (isVariable(token.getValue())) {
 			if (isEntier) {
@@ -284,16 +297,15 @@ public class SyntaxAnalyser {
 				}
 			}
 			else {
-				//printError("L'expression arithmetique est invalide");
 				return false;
 			}
 		}
 		else {
-			//System.out.println("Il y a une erreur dans le facteur");
 			return false;
 		}
 	}
 
+	// Verifie le terminal "identificateur"
 	public boolean identificateur() {
 	    if(token.getTokenType() == TokenType.IDENTIFICATOR) {
 			if (token.getValue().length() <= 8) {
@@ -310,6 +322,7 @@ public class SyntaxAnalyser {
 	    }
 	}
 	
+	// Affiche le token errone et le type d'erreur (String)
 	private void printError(String error) {
 		System.out.println("*TOKEN ERRONÉ*");
 		System.out.println("Token type : " + token.getTokenType());
@@ -318,17 +331,21 @@ public class SyntaxAnalyser {
 		System.out.println();
 	}
 	
+	// Appelle l'analyseur lexical pour recuperer le prochain token
 	private void getNextToken() {
 		token = lexicalAnalyser.getNextToken();
 		printToken();
 	}
 	
+	// Affiche le token a la console
 	private void printToken() {
 		System.out.println("Token type : " + token.getTokenType());
 		System.out.println("Token value : " + token.getValue());
 		System.out.println();
 	}
 	
+	// Verifie si la String en parametre fait parti de la liste des variables
+	// Permet de verifier si un variable utilise existe ou non
 	private boolean isVariable(String var) {
 		for (Variable element : variableList) {
 			if (element.getValue().equals(var)) {
@@ -338,6 +355,9 @@ public class SyntaxAnalyser {
 		return false;
 	}
 	
+	// Verifie si la String en parametre est en entier ou non
+	// Permet de verifier si l'on peut affecter le resultat d'une operation
+	// a une variable
 	private boolean isEntier(String var) {
 		for (Variable element : variableList) {
 			if (element.getValue().equals(var)) {

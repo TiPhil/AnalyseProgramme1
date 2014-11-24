@@ -13,10 +13,12 @@ public class Main {
 
 		SyntaxAnalyser syntaxAnalyser = new SyntaxAnalyser();
 		
-		
+		// Demarre l'analyse syntaxique
+		// Si aucune erreur est survenu, l'afficher a la console
 		if (syntaxAnalyser.procedure()) {
 			System.out.println("Aucune erreur dans le programme n'a ete detecte!");
 		}
+		// Si une erreur est survenu, l'afficher a la console
 		else {
 			System.out.println("Il y a une ou plusieurs erreurs dans le programme!");
 		}

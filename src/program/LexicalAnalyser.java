@@ -10,12 +10,14 @@ public class LexicalAnalyser {
 	private Token buffer;
 	private Token temp;
 	
+	// Constructeur
 	public LexicalAnalyser() {
 		try {
-			fileInput = new FileInputStream("src/program/file.l");
+			fileInput = new FileInputStream("src/program/file2.l");
 		} catch (Exception e) { }
 	}
 	
+	// Recupere le prochain token dans le fichier en lecture
 	public Token getNextToken() {
 		String word = "";
 		temp = new Token(TokenType.OTHER, "");	
@@ -36,6 +38,8 @@ public class LexicalAnalyser {
 				ch = (char)r;
 				counter++;
 				
+				// Si nous evaluons le premier caractere du token,
+				// certaines conditions s'appliquent...
 				if(counter == 1) {					
 					if(Character.isLetter(ch)) {
 						word += (char) r;
@@ -94,7 +98,8 @@ public class LexicalAnalyser {
 						return token;
 					}
 				}
-				// Si le counter est plus grand que 1
+				// Si nous evaluons un caractere plus grand que 1,
+				// d'autres conditions s'appliquent...
 				else {
 					if(Character.isLetter(ch)) {
 						word += (char) r;
@@ -176,62 +181,10 @@ public class LexicalAnalyser {
 		return token;
 	}
 	
+	// Fermer le fichier
 	public void closeFile() {
 		try {
 			fileInput.close();
 		} catch (IOException e) { }
 	}
-	
-	/*private void checkIdentity(String word) {
-		if (!word.isEmpty()) {
-			if (existReservedKeyWords(word)) {
-				System.out.println("MOT RESERVE : " + word);
-			}
-			else if (isNumber(word)){
-				System.out.println("NOMBRE : " + word);
-			}
-			else if (isIdentificator(word)){
-				System.out.println("IDENTIFICATEUR : " + word);
-			}
-		}
-	}
-	
-	private boolean isIdentificator(String word) {
-	    int compteur = 0;
-	    boolean valid = false;
-		
-		for(char ch: word.toCharArray()) {
-			if (compteur == 0) {
-				if (Character.isAlphabetic(ch))
-					valid = true;
-			}
-			else {
-				if (Character.isAlphabetic(ch) || Character.isDigit(ch))
-					valid = true;
-				else
-					valid = false;
-			} 
-			compteur++;
-	    }
-		if (word.length() > 8)
-			valid = false;
-		return valid;
-	}
-	
-	private boolean isNumber(String word) {
-		for(char ch: word.toCharArray()) {
-			if (!Character.isDigit(ch))
-				return false;
-	    }
-		return true;	
-	}
-	
-	private boolean existReservedKeyWords(String word) {
-		
-		for (String element : ReservedKeyWords.getInstance().getKeyWordsTable()) {
-			if (element.equals(word))
-				return true;
-		}
-		return false;
-	}*/
 }

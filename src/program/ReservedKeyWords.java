@@ -8,6 +8,8 @@ public class ReservedKeyWords {
 	private static ReservedKeyWords instance = null;
 	private ArrayList<String> keyWordsTable = new ArrayList<String>();
 	
+	// Constructeur
+	// Initie les mots cles reserves
 	private ReservedKeyWords() {
 		keyWordsTable.add("Procedure");
 		keyWordsTable.add("Fin_Procedure");
@@ -16,6 +18,7 @@ public class ReservedKeyWords {
 		keyWordsTable.add("reel");
 	}
 	
+	// Retourne le singleton
 	public static ReservedKeyWords getInstance() {
 		if(instance == null) {
 			instance = new ReservedKeyWords();
@@ -23,11 +26,7 @@ public class ReservedKeyWords {
 		return instance;
 	}
 	
-	// is this used? to delete...
-	/*public List<String> getKeyWordsTable() {
-		return keyWordsTable;
-	}*/
-	
+	// Verifie si la String en parametre est un mot cle reserve
 	public boolean isReservedKeyWords(String word) {
 		for (String element : keyWordsTable) {
 			if (element.equals(word))
